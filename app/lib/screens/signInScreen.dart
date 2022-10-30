@@ -1,22 +1,27 @@
 // ignore_for_file: file_names
 
 import 'package:app/constants/colors.dart';
-import 'package:app/screens/signInScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shape_of_view_null_safe/shape_of_view_null_safe.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SigninScreen extends StatefulWidget {
+  const SigninScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SigninScreen> createState() => _SigninScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: ConstColors().backgroudColor,
+        foregroundColor: ConstColors().darkGreen,
+
+      ),
       backgroundColor: ConstColors().backgroudColor,
       body: SingleChildScrollView(
         child: Container(
@@ -27,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(
-                height: 100,
+                height: 80,
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 20,
@@ -56,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const SizedBox(
-                            height: 30,
+                            height: 20,
                           ),
                           TextField(
                             decoration: InputDecoration(
@@ -70,10 +75,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 30,
+                            height: 20,
                           ),
                           TextField(
-                            obscureText: true,
                             decoration: InputDecoration(
                               labelText: 'Password',
                               focusColor: ConstColors().darkGreen,
@@ -87,17 +91,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          GestureDetector(
-                            onTap: () {},
-                            child: RichText(
-                              textAlign: TextAlign.end,
-                              text: const TextSpan(
-                                  text: 'forgot password',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  )),
+                          TextField(
+                            decoration: InputDecoration(
+                              labelText: 'Confirm Password',
+                              focusColor: ConstColors().darkGreen,
+                              hoverColor: ConstColors().darkGreen,
+                              prefixIcon: Icon(
+                                FontAwesomeIcons.lock,
+                                color: ConstColors().darkGreen,
+                              ),
                             ),
                           ),
+                          
                         ],
                       ),
                     ),
@@ -105,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   //profile icon
                   Positioned(
-                    top: 30,
+                    top: 20,
                     child: Container(
                       alignment: Alignment.topCenter,
                       child: CircleAvatar(
@@ -123,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       onPressed: () {},
                       child: const Text(
-                        'Login',
+                        'Sign Up',
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -132,28 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(88, 50),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SigninScreen(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'Sign In',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-              ),
+              
             ],
           ),
         ),
