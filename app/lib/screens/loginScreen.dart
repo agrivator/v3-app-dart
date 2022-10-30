@@ -86,14 +86,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          RichText(
-                            textAlign: TextAlign.end,
-                            text: const TextSpan(
-                                text: 'forgot password',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                )),
+                          GestureDetector(
+                            onTap: (){},
+                            child: RichText(
+                              textAlign: TextAlign.end,
+                              text: const TextSpan(
+                                  text: 'forgot password',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  )),
+                            ),
                           ),
+                          
                         ],
                       ),
                     ),
@@ -112,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   //login button
                   Positioned(
-                    bottom: 76,
+                    bottom: 12,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(88, 50),
