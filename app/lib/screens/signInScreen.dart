@@ -2,6 +2,8 @@
 
 import 'package:app/constants/colors.dart';
 import 'package:flutter/material.dart';
+import '../components/button.dart';
+import '../components/input_field.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shape_of_view_null_safe/shape_of_view_null_safe.dart';
 
@@ -16,11 +18,10 @@ class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar:AppBar(
         elevation: 0,
-        backgroundColor: ConstColors().backgroudColor,
-        foregroundColor: ConstColors().darkGreen,
-
+        backgroundColor:ConstColors().backgroudColor,
+        foregroundColor:ConstColors().darkGreen,
       ),
       backgroundColor: ConstColors().backgroudColor,
       body: SingleChildScrollView(
@@ -31,117 +32,74 @@ class _SigninScreenState extends State<SigninScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 80,
-              ),
+
               SizedBox(
-                height: MediaQuery.of(context).size.height / 20,
+                height: MediaQuery.of(context).size.height / 10,
                 child: Image.asset('assets/images/logo.png'),
               ),
               const SizedBox(
-                height: 100,
+                height: 50,
               ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  //container
-
-                  ShapeOfView(
-                    elevation: 4,
-                    height: 380,
-                    width: 320,
-                    shape: DiagonalShape(
-                      position: DiagonalPosition.Top,
-                      direction: DiagonalDirection.Right,
-                      angle: DiagonalAngle.deg(angle: 20),
+              Container(
+                width : 320,
+                height : 400,
+                decoration:BoxDecoration(
+                  borderRadius:  BorderRadius.circular(20.0),
+                  color : Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 5.0,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                  ],
+                ),
+                child:Column(
+
+                  children:[
+                    //image
+                    Padding(
+                      padding:const EdgeInsets.all(10.0),
+                      child:CircleAvatar(
+                        radius:45,
+                        backgroundColor:ConstColors().darkGreen,
+                        backgroundImage: AssetImage('assets/images/profile.png'),
+                      ),
+                    ),
+                    //inputs
+                    Expanded(
+                      child:Column(
+                        children:[
+                          InputField(text:'Enter Email Address',icon:Icons.email),
                           const SizedBox(
-                            height: 20,
+                            height:12,
                           ),
-                          TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Email Address',
-                              focusColor: ConstColors().darkGreen,
-                              hoverColor: ConstColors().darkGreen,
-                              prefixIcon: Icon(
-                                FontAwesomeIcons.user,
-                                color: ConstColors().darkGreen,
-                              ),
-                            ),
-                          ),
+                          InputField(text: 'Enter Password',icon:Icons.lock),
                           const SizedBox(
-                            height: 20,
+                            height:12,
                           ),
-                          TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Password',
-                              focusColor: ConstColors().darkGreen,
-                              hoverColor: ConstColors().darkGreen,
-                              prefixIcon: Icon(
-                                FontAwesomeIcons.lock,
-                                color: ConstColors().darkGreen,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Confirm Password',
-                              focusColor: ConstColors().darkGreen,
-                              hoverColor: ConstColors().darkGreen,
-                              prefixIcon: Icon(
-                                FontAwesomeIcons.lock,
-                                color: ConstColors().darkGreen,
-                              ),
-                            ),
-                          ),
-                          
+                          InputField(text: 'Confirm Password',icon:Icons.lock),
                         ],
                       ),
                     ),
-                  ),
-
-                  //profile icon
-                  Positioned(
-                    top: 20,
-                    child: Container(
-                      alignment: Alignment.topCenter,
-                      child: CircleAvatar(
-                        radius: 40,
-                        child: Image.asset('assets/images/profile.png'),
-                      ),
-                    ),
-                  ),
-                  //login button
-                  Positioned(
-                    bottom: 12,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(88, 50),
-                      ),
-                      onPressed: () {},
-                      child: const Text(
-                        'Sign Up',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                    Button(text:'Sign Up',onPressed: (){}),
+                    //button
+                  ],
+                ),
               ),
-              
+
             ],
           ),
         ),
       ),
+      floatingActionButton:FloatingActionButton(
+        onPressed:(){
+          Navigator.pop(context);
+        },
+        backgroundColor: ConstColors().darkGreen,
+        child : Icon(Icons.arrow_back_sharp ),
+
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 }

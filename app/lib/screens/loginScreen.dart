@@ -5,6 +5,8 @@ import 'package:app/screens/signInScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shape_of_view_null_safe/shape_of_view_null_safe.dart';
+import '../components/input_field.dart';
+import '../components/button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,132 +29,66 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(
-                height: 100,
+                height: 160,
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 20,
+                height: MediaQuery.of(context).size.height / 10,
                 child: Image.asset('assets/images/logo.png'),
               ),
               const SizedBox(
-                height: 100,
+                height: 50,
               ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  //container
-
-                  ShapeOfView(
-                    elevation: 4,
-                    height: 380,
-                    width: 320,
-                    shape: DiagonalShape(
-                      position: DiagonalPosition.Top,
-                      direction: DiagonalDirection.Right,
-                      angle: DiagonalAngle.deg(angle: 20),
+              Container(
+                width : 320,
+                height : 360,
+                decoration:BoxDecoration(
+                  borderRadius:  BorderRadius.circular(20.0),
+                  color : Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 5.0,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                  ],
+                ),
+                child:Column(
+
+                  children:[
+                    //image
+                    Padding(
+                      padding:const EdgeInsets.all(10.0),
+                      child:CircleAvatar(
+                          radius:45,
+                          backgroundColor:ConstColors().darkGreen,
+                          backgroundImage: AssetImage('assets/images/profile.png'),
+                      ),
+                    ),
+                    //inputs
+                    Expanded(
+                      child:Column(
+                        children:[
+                          InputField(text:'Email Address',icon:Icons.email),
                           const SizedBox(
-                            height: 30,
+                            height:12,
                           ),
-                          TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Email Address',
-                              focusColor: ConstColors().darkGreen,
-                              hoverColor: ConstColors().darkGreen,
-                              prefixIcon: Icon(
-                                FontAwesomeIcons.user,
-                                color: ConstColors().darkGreen,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          TextField(
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              labelText: 'Password',
-                              focusColor: ConstColors().darkGreen,
-                              hoverColor: ConstColors().darkGreen,
-                              prefixIcon: Icon(
-                                FontAwesomeIcons.lock,
-                                color: ConstColors().darkGreen,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          GestureDetector(
-                            onTap: () {},
-                            child: RichText(
-                              textAlign: TextAlign.end,
-                              text: const TextSpan(
-                                  text: 'forgot password',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  )),
+                          InputField(text: 'Password',icon:Icons.lock),
+                          Padding(
+                            padding:EdgeInsets.all(10.0),
+                            child:GestureDetector(
+                              child:Text('forget password',textAlign:TextAlign.end),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-
-                  //profile icon
-                  Positioned(
-                    top: 30,
-                    child: Container(
-                      alignment: Alignment.topCenter,
-                      child: CircleAvatar(
-                        radius: 40,
-                        child: Image.asset('assets/images/profile.png'),
-                      ),
-                    ),
-                  ),
-                  //login button
-                  Positioned(
-                    bottom: 12,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(88, 50),
-                      ),
-                      onPressed: () {},
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(88, 50),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SigninScreen(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'Sign In',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
+                    Button(text:'Log In',onPressed: (){}),
+                    //button
+                  ],
                 ),
+              ),
+              Button(text:'Sign In',onPressed:(){
+                    Navigator.push(context,MaterialPageRoute(builder:(context)=>SigninScreen()));
+                },
               ),
             ],
           ),
