@@ -3,10 +3,11 @@
 import 'package:app/constants/colors.dart';
 import 'package:app/screens/signInScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:shape_of_view_null_safe/shape_of_view_null_safe.dart';
 import '../components/input_field.dart';
 import '../components/button.dart';
+import '../components/password_input_field.dart';
+import 'package:email_validator/email_validator.dart';
+import '../utils/popUp.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,6 +17,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final formKey = GlobalKey<FormState>();
+  TextEditingController _mailidController = TextEditingController();
+  TextEditingController _passwordConroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,11 +43,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 50,
               ),
               Container(
-                width : 320,
-                height : 360,
-                decoration:BoxDecoration(
-                  borderRadius:  BorderRadius.circular(20.0),
-                  color : Colors.white,
+                width: 320,
+                height: 360,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  color: Colors.white,
                   boxShadow: const [
                     BoxShadow(
                       color: Colors.grey,
@@ -51,43 +55,77 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                child:Column(
-
-                  children:[
+                child: Column(
+                  children: [
                     //image
                     Padding(
-                      padding:const EdgeInsets.all(10.0),
-                      child:CircleAvatar(
-                          radius:45,
-                          backgroundColor:ConstColors().darkGreen,
-                          backgroundImage: AssetImage('assets/images/profile.png'),
+                      padding: const EdgeInsets.all(10.0),
+                      child: CircleAvatar(
+                        radius: 45,
+                        backgroundColor: ConstColors().darkGreen,
+                        backgroundImage:
+                            const AssetImage('assets/images/profile.png'),
                       ),
                     ),
                     //inputs
                     Expanded(
-                      child:Column(
-                        children:[
-                          InputField(text:'Email Address',icon:Icons.email),
-                          const SizedBox(
-                            height:12,
+                      child: Column(
+                        children: [
+                          InputField(
+                            text: 'Email Address',
+                            icon: Icons.email,
+                            controller: _mailidController,
                           ),
-                          InputField(text: 'Password',icon:Icons.lock),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          PasswordInput(
+                            text: 'Password',
+                            controller: _passwordConroller,
+                          ),
                           Padding(
-                            padding:EdgeInsets.all(10.0),
-                            child:GestureDetector(
-                              child:Text('forget password',textAlign:TextAlign.end),
+                            padding: const EdgeInsets.all(10.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                PopUp().popUpAlert(
+                                  context,
+                                  'Comming Soon',
+                                  'This feature under maintainance, available soon',
+                                );
+                              },
+                              child: const Text('forget password',
+                                  textAlign: TextAlign.end),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Button(text:'Log In',onPressed: (){}),
+                    Button(
+                        text: 'Log In',
+                        onPressed: () {
+                          bool isValid =
+                              EmailValidator.validate(_mailidController.text);
+                          if (_mailidController.text.isEmpty ||
+                              _passwordConroller.text.length < 6 ||
+                              isValid == false) {
+                            PopUp().popUpAlert(
+                              context,
+                              'Check your inputs',
+                              'Please enter a valid email and password',
+                            );
+                          }
+                        }),
                     //button
                   ],
                 ),
               ),
-              Button(text:'Sign In',onPressed:(){
-                    Navigator.push(context,MaterialPageRoute(builder:(context)=>SigninScreen()));
+              Button(
+                text: 'Sign In',
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SigninScreen()));
                 },
               ),
             ],

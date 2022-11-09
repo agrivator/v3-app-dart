@@ -1,11 +1,13 @@
 // ignore_for_file: file_names
 
 import 'package:app/constants/colors.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import '../components/button.dart';
 import '../components/input_field.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:shape_of_view_null_safe/shape_of_view_null_safe.dart';
+
+import '../components/password_input_field.dart';
+import '../utils/popUp.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -15,13 +17,17 @@ class SigninScreen extends StatefulWidget {
 }
 
 class _SigninScreenState extends State<SigninScreen> {
+  final signUpFormkey = GlobalKey<FormState>();
+  TextEditingController _mailidController = TextEditingController();
+  TextEditingController _passwordConroller = TextEditingController();
+  TextEditingController _CnfpasswordConroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(
+      appBar: AppBar(
         elevation: 0,
-        backgroundColor:ConstColors().backgroudColor,
-        foregroundColor:ConstColors().darkGreen,
+        backgroundColor: ConstColors().backgroudColor,
+        foregroundColor: ConstColors().darkGreen,
       ),
       backgroundColor: ConstColors().backgroudColor,
       body: SingleChildScrollView(
@@ -32,7 +38,6 @@ class _SigninScreenState extends State<SigninScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
               SizedBox(
                 height: MediaQuery.of(context).size.height / 10,
                 child: Image.asset('assets/images/logo.png'),
@@ -41,11 +46,11 @@ class _SigninScreenState extends State<SigninScreen> {
                 height: 50,
               ),
               Container(
-                width : 320,
-                height : 400,
-                decoration:BoxDecoration(
-                  borderRadius:  BorderRadius.circular(20.0),
-                  color : Colors.white,
+                width: 320,
+                height: 400,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  color: Colors.white,
                   boxShadow: const [
                     BoxShadow(
                       color: Colors.grey,
@@ -53,51 +58,81 @@ class _SigninScreenState extends State<SigninScreen> {
                     ),
                   ],
                 ),
-                child:Column(
-
-                  children:[
+                child: Column(
+                  children: [
                     //image
                     Padding(
-                      padding:const EdgeInsets.all(10.0),
-                      child:CircleAvatar(
-                        radius:45,
-                        backgroundColor:ConstColors().darkGreen,
-                        backgroundImage: AssetImage('assets/images/profile.png'),
+                      padding: const EdgeInsets.all(10.0),
+                      child: CircleAvatar(
+                        radius: 45,
+                        backgroundColor: ConstColors().darkGreen,
+                        backgroundImage:
+                            const AssetImage('assets/images/profile.png'),
                       ),
                     ),
                     //inputs
                     Expanded(
-                      child:Column(
-                        children:[
-                          InputField(text:'Enter Email Address',icon:Icons.email),
-                          const SizedBox(
-                            height:12,
+                      child: Column(
+                        children: [
+                          InputField(
+                            text: 'Enter Email Address',
+                            icon: Icons.email,
+                            controller: _mailidController,
                           ),
-                          InputField(text: 'Enter Password',icon:Icons.lock),
                           const SizedBox(
-                            height:12,
+                            height: 12,
                           ),
-                          InputField(text: 'Confirm Password',icon:Icons.lock),
+                          PasswordInput(
+                            text: 'Enter Password',
+                            controller: _passwordConroller,
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          PasswordInput(
+                            text: 'Confirm Password',
+                            controller: _CnfpasswordConroller,
+                          ),
                         ],
                       ),
                     ),
-                    Button(text:'Sign Up',onPressed: (){}),
+                    Button(
+                      text: 'Sign Up',
+                      onPressed: () {
+                        bool isValid =
+                            EmailValidator.validate(_mailidController.text);
+                        if (_mailidController.text.isEmpty ||
+                            _passwordConroller.text.length < 6 ||
+                            isValid == false) {
+                          PopUp().popUpAlert(
+                            context,
+                            'Check your inputs',
+                            'Please enter a valid email and password',
+                          );
+                        }
+                        if(_passwordConroller.text != _CnfpasswordConroller.text){
+                            PopUp().popUpAlert(
+                            context,
+                            'Check your inputs',
+                            'Password didn\'t match check once more',
+                          );
+                        }
+                      },
+                    ),
                     //button
                   ],
                 ),
               ),
-
             ],
           ),
         ),
       ),
-      floatingActionButton:FloatingActionButton(
-        onPressed:(){
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
           Navigator.pop(context);
         },
         backgroundColor: ConstColors().darkGreen,
-        child : Icon(Icons.arrow_back_sharp ),
-
+        child: const Icon(Icons.arrow_back_sharp),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
