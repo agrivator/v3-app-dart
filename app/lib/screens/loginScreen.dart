@@ -5,6 +5,7 @@ import 'package:app/controllers/api_controller.dart';
 import 'package:app/screens/dummy_Screen.dart';
 import 'package:app/screens/signInScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../components/input_field.dart';
 import '../components/button.dart';
 import '../components/password_input_field.dart';
@@ -115,23 +116,29 @@ class _LoginScreenState extends State<LoginScreen> {
                             'Check your inputs',
                             'Please enter a valid email and password',
                           );
-                        }
-                        try {
-                          bool jwt = await APIController().getToken(
-                              _mailidController.text, _passwordConroller.text);
+                        } else {
+                          try {
+                            bool jwt = await APIController().getToken(
+                                _mailidController.text,
+                                _passwordConroller.text);
 
-                          if (jwt == false) {
-                            PopUp().popUpAlert(context, 'login error',
-                                'incorrect username or password');
-                          } else {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const DummyScreen()));
+                            if (jwt == false) {
+                              PopUp().popUpAlert(context, 'login error',
+                                  'incorrect username or password');
+                            } else {
+                              SharedPreferences pref =
+                                  await SharedPreferences.getInstance();
+                              pref.setBool('isLoggedIn', true);
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const DummyScreen()));
+                            }
+                          } catch (e) {
+                            PopUp().popUpAlert(
+                                context, 'Authentication falied', e.toString());
                           }
-                        } catch (e) {
-                          PopUp().popUpAlert(
-                              context, 'Authentication falied', e.toString());
                         }
                       },
                     ),
