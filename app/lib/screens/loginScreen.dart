@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:app/constants/colors.dart';
+import 'package:app/controllers/api_controller.dart';
+import 'package:app/screens/dummy_Screen.dart';
 import 'package:app/screens/signInScreen.dart';
 import 'package:flutter/material.dart';
 import '../components/input_field.dart';
@@ -101,20 +103,38 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     Button(
-                        text: 'Log In',
-                        onPressed: () {
-                          bool isValid =
-                              EmailValidator.validate(_mailidController.text);
-                          if (_mailidController.text.isEmpty ||
-                              _passwordConroller.text.length < 6 ||
-                              isValid == false) {
-                            PopUp().popUpAlert(
-                              context,
-                              'Check your inputs',
-                              'Please enter a valid email and password',
-                            );
+                      text: 'Log In',
+                      onPressed: () async {
+                        bool isValid =
+                            EmailValidator.validate(_mailidController.text);
+                        if (_mailidController.text.isEmpty ||
+                            _passwordConroller.text.length < 6 ||
+                            isValid == false) {
+                          PopUp().popUpAlert(
+                            context,
+                            'Check your inputs',
+                            'Please enter a valid email and password',
+                          );
+                        }
+                        try {
+                          bool jwt = await APIController().getToken(
+                              _mailidController.text, _passwordConroller.text);
+
+                          if (jwt == false) {
+                            PopUp().popUpAlert(context, 'login error',
+                                'incorrect username or password');
+                          } else {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const DummyScreen()));
                           }
-                        }),
+                        } catch (e) {
+                          PopUp().popUpAlert(
+                              context, 'Authentication falied', e.toString());
+                        }
+                      },
+                    ),
                     //button
                   ],
                 ),
