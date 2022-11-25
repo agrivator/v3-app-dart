@@ -1,6 +1,8 @@
 import 'package:app/constants/colors.dart';
 import 'package:flutter/material.dart';
 
+import 'otp_verification_screen.dart';
+
 class MyPhone extends StatefulWidget {
   static const String myPhoneRouteName = 'MyPhone';
   const MyPhone({super.key});
@@ -96,13 +98,15 @@ class _MyPhoneState extends State<MyPhone> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               SizedBox(
                 height: 45,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, OTPScreen.otpScreenRouteName);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     shape: RoundedRectangleBorder(

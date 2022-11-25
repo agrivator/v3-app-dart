@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './screens/login_phone.dart';
+import './screens/otp_verification_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();   
@@ -11,7 +12,8 @@ Future<void> main() async {
     ),
     home: const  MyPhone(),
     routes: {
-      MyPhone.myPhoneRouteName : ((context) => const MyPhone())
+      MyPhone.myPhoneRouteName : ((context) => const MyPhone()),
+      OTPScreen.otpScreenRouteName:(context) => const OTPScreen()
     },
   ));
 }
