@@ -1,18 +1,24 @@
 import 'package:app/screens/login_phone.dart';
+import 'package:app/service/firebase_service.dart';
 import 'package:flutter/material.dart';
+
 import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:pinput/pinput.dart';
 import '../constants/colors.dart';
+import '../utils/pop.dart';
 
 class OTPScreen extends StatefulWidget {
   static const String otpScreenRouteName = "otpscreen";
-  const OTPScreen({super.key});
+
+  OTPScreen({super.key});
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
 }
 
 class _OTPScreenState extends State<OTPScreen> {
+  TextEditingController pinController = TextEditingController();
+  String code = "";
   Color focusedBorderColor = Color.fromRGBO(23, 171, 144, 1);
   Color fillColor = Color.fromARGB(0, 91, 214, 107);
   Color borderColor = Color.fromRGBO(23, 171, 144, 0.4);
@@ -31,6 +37,7 @@ class _OTPScreenState extends State<OTPScreen> {
   );
   @override
   Widget build(BuildContext context) {
+    final phoneNumber = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       backgroundColor: ConstColors().backgroudColor,
       appBar: AppBar(
@@ -79,6 +86,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 height: 20,
               ),
               Pinput(
+                controller: pinController,
                 focusedPinTheme: defaultPinTheme.copyWith(
                   decoration: defaultPinTheme.decoration!.copyWith(
                     borderRadius: BorderRadius.circular(8),
@@ -97,15 +105,17 @@ class _OTPScreenState extends State<OTPScreen> {
                 ),
                 length: 6,
                 showCursor: true,
-                onCompleted: ((value) => print(value)),
+                onCompleted: ((value) => code = value),
               ),
               const SizedBox(
                 height: 10,
               ),
               OtpTimerButton(
-                onPressed: () {},
-                text: const  Text('Resend OTP'),
-                duration: 10,
+                onPressed: () {
+                  FirebaseServices().verifyPhoneNumber(phoneNumber);
+                },
+                text: const Text('Resend OTP'),
+                duration: 60,
                 buttonType: ButtonType.text_button,
               ),
               const SizedBox(
@@ -115,7 +125,30 @@ class _OTPScreenState extends State<OTPScreen> {
                 height: 45,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (pinController.text.isEmpty) {
+                      PopUp().popUpAlert(
+                        context,
+                        'Enter valid OTP',
+                        "",
+                      );
+                    } else {
+                      bool result = await FirebaseServices().verifyOTP(code);
+                      if (result == false) {
+                        PopUp().popUpAlert(
+                          context,
+                          'Wrong OTP',
+                          'check otp entered',
+                        );
+                      } else {
+                        PopUp().popUpAlert(
+                          context,
+                          'Phone number verified',
+                          '',
+                        );
+                      }
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     shape: RoundedRectangleBorder(

@@ -6,6 +6,7 @@ import 'otp_verification_screen.dart';
 
 class MyPhone extends StatefulWidget {
   static const String myPhoneRouteName = 'MyPhone';
+  final String phoneNumber = "";
   const MyPhone({super.key});
 
   @override
@@ -13,6 +14,7 @@ class MyPhone extends StatefulWidget {
 }
 
 class _MyPhoneState extends State<MyPhone> {
+  
   final TextEditingController _countryController = TextEditingController();
  
   var phone = '';
@@ -121,9 +123,9 @@ class _MyPhoneState extends State<MyPhone> {
                         'Enter a valid phonenumber',
                       );
                     } else {
-                      String phoneNumber = _countryController.text +phone;
-                      FirebaseServices().verifyPhoneNumber(phoneNumber);
-                      // Navigator.pushNamed(context, OTPScreen.otpScreenRouteName);
+                      phone = _countryController.text +phone;
+                      FirebaseServices().verifyPhoneNumber(phone);
+                      Navigator.pushNamed(context, OTPScreen.otpScreenRouteName,arguments: phone);
                     }
                   },
                   style: ElevatedButton.styleFrom(

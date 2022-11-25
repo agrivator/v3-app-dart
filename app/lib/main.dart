@@ -15,7 +15,7 @@ Future<void> main() async {
     home: const  MyPhone(),
     routes: {
       MyPhone.myPhoneRouteName : ((context) => const MyPhone()),
-      OTPScreen.otpScreenRouteName:(context) => const OTPScreen()
+      OTPScreen.otpScreenRouteName:(context) =>  OTPScreen()
     },
   ));
 }
