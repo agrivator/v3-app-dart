@@ -44,7 +44,13 @@ class _OTPScreenState extends State<OTPScreen> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              MyPhone.myPhoneRouteName,
+              (route) => false,
+            );
+          },
           icon: const Icon(Icons.arrow_back_ios_rounded),
           color: Colors.green,
         ),
