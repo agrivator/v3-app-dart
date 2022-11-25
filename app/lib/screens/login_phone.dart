@@ -1,7 +1,7 @@
 import 'package:app/constants/colors.dart';
 import 'package:app/service/firebase_service.dart';
 import 'package:flutter/material.dart';
-
+import '../utils/pop.dart';
 import 'otp_verification_screen.dart';
 
 class MyPhone extends StatefulWidget {
@@ -13,8 +13,8 @@ class MyPhone extends StatefulWidget {
 }
 
 class _MyPhoneState extends State<MyPhone> {
-  TextEditingController _countryController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+ 
   var phone = '';
   @override
   void initState() {
@@ -74,7 +74,7 @@ class _MyPhoneState extends State<MyPhone> {
                     SizedBox(
                       width: 40,
                       child: TextField(
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.numberWithOptions(),
                         controller: _countryController,
                         decoration:
                             const InputDecoration(border: InputBorder.none),
@@ -89,6 +89,7 @@ class _MyPhoneState extends State<MyPhone> {
                     ),
                     Expanded(
                       child: TextField(
+                      
                           keyboardType: TextInputType.number,
                           onChanged: (value) {
                             phone = value;
@@ -107,15 +108,28 @@ class _MyPhoneState extends State<MyPhone> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    String phoneNumber = _countryController.text+phone;
-                    FirebaseServices().verifyPhoneNumber(phoneNumber);
-                    // Navigator.pushNamed(context, OTPScreen.otpScreenRouteName);
+                    if (_countryController.text.isEmpty) {
+                      PopUp().popUpAlert(
+                        context,
+                        'Country Code missing',
+                        'Enter a valid contrycode',
+                      );
+                    } else if (phone.length < 10||phone.length > 10) {
+                      PopUp().popUpAlert(
+                        context,
+                        'Phone number error',
+                        'Enter a valid phonenumber',
+                      );
+                    } else {
+                      String phoneNumber = _countryController.text +phone;
+                      FirebaseServices().verifyPhoneNumber(phoneNumber);
+                      // Navigator.pushNamed(context, OTPScreen.otpScreenRouteName);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)
-                    ),
+                        borderRadius: BorderRadius.circular(10)),
                   ),
                   child: const Text('Send OTP'),
                 ),
