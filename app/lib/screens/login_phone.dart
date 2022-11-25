@@ -14,6 +14,7 @@ class MyPhone extends StatefulWidget {
 
 class _MyPhoneState extends State<MyPhone> {
   TextEditingController _countryController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
   var phone = '';
   @override
   void initState() {
