@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1095884333172",
+    "project_id": "agrivator-test",
+    "storage_bucket": "agrivator-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1095884333172:android:b17cb06d6b2b13b0bfb121",
+        "android_client_info": {
+          "package_name": "com.agrivator.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1095884333172-qs0m3qtccptnk9rdon8i5to7u0b6v1kk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.agrivator.app",
+            "certificate_hash": "fd6f6e37e910e436c8f86e0cdbb94b3e6dfb8bac"
+          }
+        },
+        {
+          "client_id": "1095884333172-eabh9sc51ko98g8s58fbbd4dvsc5f1g1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCETi7qHyhSSDIXbltfTenZIkCfOqR7Ryc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1095884333172-eabh9sc51ko98g8s58fbbd4dvsc5f1g1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
