@@ -1,4 +1,5 @@
 import 'package:app/constants/colors.dart';
+import 'package:app/service/firebase_service.dart';
 import 'package:flutter/material.dart';
 
 import 'otp_verification_screen.dart';
@@ -105,7 +106,9 @@ class _MyPhoneState extends State<MyPhone> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, OTPScreen.otpScreenRouteName);
+                    String phoneNumber = _countryController.text+phone;
+                    FirebaseServices().verifyPhoneNumber(phoneNumber);
+                    // Navigator.pushNamed(context, OTPScreen.otpScreenRouteName);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
